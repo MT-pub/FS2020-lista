@@ -72,22 +72,64 @@ function App() {
     }
   }
 
+  const sortList = (list, direction = "ascend") => {
+    var tempArr
+    if (list === "left") {
+      tempArr = [...leftList]
+    } else if (list === "right") {
+      tempArr = [...rightList]
+    } else {
+      return
+    }
+
+    tempArr.sort()
+
+    if (list === "left") {
+      if (direction === "descend") {
+        tempArr.reverse()
+        setLeftList(tempArr)
+      } else if (direction === "ascend") {
+        setLeftList(tempArr)
+      } else {
+        return
+      }
+    } else if (list === "right") {
+      if (direction === "descend") {
+        tempArr.reverse()
+        setRightList(tempArr)
+      } else if (direction === "ascend") {
+        setRightList(tempArr)
+      } else {
+        return
+      }
+    }
+
+    return
+  }
+
   return (
     <div className="App">
-      <Grid container direction="column" key="leftCol">
-        <Grid container direction="row">
-          <Grid item xs={1}><i className="material-icons oma" onClick={moveRight}>arrow_drop_down</i></Grid>
-          <Grid item xs={1}><i className="material-icons oma" onClick={moveLeft}>arrow_drop_up</i></Grid>
+      <Grid container>
+        <Grid container item direction="column" key="leftCol" xs={5} md={2}>
+          <Grid container direction="row">
+            <Grid item xs={1}><i className="material-icons" onClick={() => sortList("left")}>arrow_drop_up</i></Grid>
+            <Grid item xs={1}><i className="material-icons" onClick={() => sortList("left", "descend")}>arrow_drop_down</i></Grid>
+          </Grid>
+          {makeList('left')}
         </Grid>
-        {makeList('left')}
-      </Grid>
-      {/*{leftList.map((item, index) => <Grid item key={index}><button onClick={() => { setLeftSelect(index) }}>{item}</button></Grid>)} */}
-      <Grid container item direction="column" xs={1}>
-        <Grid item xs={1}><i className="material-icons oma" onClick={moveRight}>arrow_forward</i></Grid>
-        <Grid item xs={1}><i className="material-icons oma" onClick={moveLeft}>arrow_back</i></Grid>
-      </Grid>
-      <Grid container direction="column" key="rightCol">
-        {makeList('right')}
+        {/*{leftList.map((item, index) => <Grid item key={index}><button onClick={() => { setLeftSelect(index) }}>{item}</button></Grid>)} */}
+        <Grid container item direction="column" xs={2} md={1}>
+          <Grid item></Grid>
+          <Grid item xs={1}><i className="material-icons" onClick={moveRight}>arrow_forward</i></Grid>
+          <Grid item xs={1}><i className="material-icons" onClick={moveLeft}>arrow_back</i></Grid>
+        </Grid>
+        <Grid container item direction="column" key="rightCol" xs={5} md={2}>
+          <Grid container direction="row">
+            <Grid item xs={1}><i className="material-icons" onClick={() => sortList("right")}>arrow_drop_up</i></Grid>
+            <Grid item xs={1}><i className="material-icons" onClick={() => sortList("right", "descend")}>arrow_drop_down</i></Grid>
+          </Grid>
+          {makeList('right')}
+        </Grid>
       </Grid>
     </div>
   );
